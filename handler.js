@@ -10,8 +10,21 @@ const s3 = new S3Client({
     },
 });
 
-function hander(){
+const hander = async (event) => {
+    try {
 
+    } catch (error) {
+        const tokenId = event.queryStringParameters.tokenId;
+
+        if (!tokenId) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    message: "tokenId required!"
+                }),
+            };
+        }
+    }
 }
 
 export default hander;
