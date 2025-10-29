@@ -30,4 +30,4 @@ async function getSignatures(tokenId) {
 }
 
 // Test call
-getSignatures(1);
+getSignatures(2);
