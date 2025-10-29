@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import abi from "./PropertyNFTABI.json" assert { type: "json" };
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const main = async () => {

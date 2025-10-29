@@ -51,7 +51,7 @@ const hander = async (event) => {
         };
 
         //Get on-chain signature
-        const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+        const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
         const contract = new ethers.Contract(
             process.env.CONTRACT_ADDRESS,
             PropertyNFTABI,
