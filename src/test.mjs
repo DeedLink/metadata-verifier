@@ -1,17 +1,33 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { ethers } from "ethers";
-import abi from "./PropertyNFTABI.json" assert { type: "json" };
-import dotenv from "dotenv";
 
-dotenv.config();
+// ES modules __dirname fix
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const main = async () => {
-  const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-  const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi, provider);
+// Load ABI JSON manually (no 'assert')
+const abiPath = path.join(__dirname, "PropertyNFTABI.json");
+const abi = JSON.parse(fs.readFileSync(abiPath, "utf8"));
 
-  const tokenId = 1;
-  const sigs = await contract.getSignatures(tokenId);
+// RPC and contract
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;;
+const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
 
-  console.log("Signatures for token", tokenId, ":", sigs);
-};
+// Contract instance
+const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
-main().catch(console.error);
+async function getSignatures(tokenId) {
+  try {
+    const sigs = await contract.getSignatures(tokenId);
+    console.log("Surveyor:", sigs.surveyor);
+    console.log("Notary:", sigs.notary);
+    console.log("IVSL:", sigs.ivsl);
+  } catch (err) {
+    console.error("Error fetching signatures:", err);
+  }
+}
+
+// Test call
+getSignatures(1);
