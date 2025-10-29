@@ -38,6 +38,7 @@ const hander = async (event) => {
             signRaw += chunk;
         }
 
+        //get off-chain signature
         const offChainSignature = JSON.parse(signRaw);
 
         return {
@@ -47,6 +48,8 @@ const hander = async (event) => {
                 data: offChainSignature
             }),
         };
+
+        //get on-chain signature
 
     } catch (error) {
 
