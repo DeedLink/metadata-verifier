@@ -35,7 +35,7 @@ const hander = async (event) => {
         const signObj = await s3.send(signCmd);
         let signRaw = "";
 
-        for await (const chunk of signObj.Body){
+        for await (const chunk of signObj.Body) {
             signRaw += chunk;
         }
 
@@ -51,14 +51,14 @@ const hander = async (event) => {
         };
 
         //Get on-chain signature
-        const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL); 
+        const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
         const contract = new ethers.Contract(
             process.env.CONTRACT_ADDRESS,
             PropertyNFTABI,
             provider
         );
 
-        const onChain = await contract.getSignature(tokenId); 
+        const onChain = await contract.getSignature(tokenId);
 
         const onChainSigature = {
             surveyor: onChain.surveyor,
@@ -67,6 +67,19 @@ const hander = async (event) => {
         };
 
         //Signature comparison
+        const result = {
+            tokenId: tokenId,
+            onChian: onChainSigature,
+            offChain: offChainSignature,
+            isMatches: {
+                surveyor:
+                    onChainSigature.surveyor.toLowerCase() === offChainSignature.surveyor.toLowerCase(),
+                noatry:
+                    onChainSigature.notary.toLowerCase() === offChainSignature.notary.toLowerCase(),
+                ivsl:
+                    onChainSigature.ivsl.toLowerCase() === offChainSignature.ivsl.toLowerCase(),                
+            }
+        };
 
     } catch (error) {
 
