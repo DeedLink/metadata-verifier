@@ -12,6 +12,17 @@ const s3 = new S3({
 const metaDataHandler = async (event) => {
     try{
 
+        const tokenId = event.queryStringParameters.tokenId;
+
+        if(!tokenId){
+            return{
+                statusCode: 400,
+                body: JSON.stringify({
+                    message: "token id required!"
+                })
+            };
+        }
+
     }catch(error){
         console.error("Error fetching metadata:", error);
         return {
