@@ -11,7 +11,7 @@ const s3 = new S3Client({
     },
 });
 
-const hander = async (event) => {
+const Signaturehandler = async (event) => {
 
     try {
         const tokenId = event.queryStringParameters.tokenId;
@@ -118,4 +118,4 @@ const hander = async (event) => {
     }
 }
 
-export default hander;
+export default Signaturehandler;
