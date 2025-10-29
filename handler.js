@@ -1,4 +1,4 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { GetObjectAclCommand, GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 dotenv.config();
 
@@ -11,9 +11,8 @@ const s3 = new S3Client({
 });
 
 const hander = async (event) => {
-    try {
 
-    } catch (error) {
+    try {
         const tokenId = event.queryStringParameters.tokenId;
 
         if (!tokenId) {
@@ -24,6 +23,16 @@ const hander = async (event) => {
                 }),
             };
         }
+
+        //fetch metadata from s3
+        const signKey = `signature/${tokenId}.json`;
+        const signCmd = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: signKey
+        });
+
+    } catch (error) {
+
     }
 }
 
