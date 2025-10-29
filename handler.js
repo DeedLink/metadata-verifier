@@ -1,4 +1,4 @@
-import { GetObjectAclCommand, GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { ethers } from "ethers";
 
 dotenv.config();
@@ -66,6 +66,23 @@ const hander = async (event) => {
             ivsl: onChain.ivsl
         };
 
+        if (onChainSigature && Object.values(onChainSigature).every(v => v)) {
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    message: "On-chain signatures fetched successfully!",
+                    data: onChainSigature
+                })
+            };
+        } else {
+            return {
+                statusCode: 404,
+                body: JSON.stringify({
+                    message: "On-chain signatures not found or incomplete."
+                })
+            };
+        }
+
         //Signature comparison
         const result = {
             tokenId: tokenId,
@@ -77,9 +94,17 @@ const hander = async (event) => {
                 noatry:
                     onChainSigature.notary.toLowerCase() === offChainSignature.notary.toLowerCase(),
                 ivsl:
-                    onChainSigature.ivsl.toLowerCase() === offChainSignature.ivsl.toLowerCase(),                
+                    onChainSigature.ivsl.toLowerCase() === offChainSignature.ivsl.toLowerCase(),
             }
         };
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: "Signature fetched successfully",
+                data: result
+            }),
+        }
 
     } catch (error) {
 
