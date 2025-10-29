@@ -1,4 +1,5 @@
 import { GetObjectAclCommand, GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { ethers } from "ethers";
 
 dotenv.config();
 
@@ -50,7 +51,12 @@ const hander = async (event) => {
         };
 
         //get on-chain signature
-
+        const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL); 
+        const contract = new ethers.Contract(
+            process.env.CONTRACT_ADDRESS,
+            PropertyNFTABI,
+            provider
+        );
     } catch (error) {
 
     }
