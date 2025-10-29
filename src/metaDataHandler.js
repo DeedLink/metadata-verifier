@@ -10,7 +10,17 @@ const s3 = new S3({
 });
 
 const metaDataHandler = async (event) => {
-    
+    try{
+
+    }catch(error){
+        console.error("Error fetching metadata:", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                message: "Internal Server Error"
+            }),
+        };
+    }
 }
 
 export default metaDataHandler;
