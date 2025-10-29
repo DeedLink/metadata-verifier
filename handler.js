@@ -101,13 +101,20 @@ const hander = async (event) => {
         return {
             statusCode: 200,
             body: JSON.stringify({
-                message: "Signature fetched successfully",
+                message: "Signature compaired successfully",
                 data: result
             }),
         }
 
     } catch (error) {
-
+        console.error("Error in signature verification:", error);
+        return{
+            statusCode: 500,
+            body: JSON.stringify({
+                message: "Internal Server Error",
+                error: error.message
+            })
+        }
     }
 }
 
