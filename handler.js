@@ -25,7 +25,7 @@ const hander = async (event) => {
             };
         }
 
-        //fetch metadata from s3
+        //Fetch metadata from s3
         const signKey = `signature/${tokenId}.json`;
         const signCmd = new GetObjectCommand({
             Bucket: process.env.AWS_BUCKET_NAME,
@@ -39,7 +39,7 @@ const hander = async (event) => {
             signRaw += chunk;
         }
 
-        //get off-chain signature
+        //Get off-chain signature
         const offChainSignature = JSON.parse(signRaw);
 
         return {
@@ -50,7 +50,7 @@ const hander = async (event) => {
             }),
         };
 
-        //get on-chain signature
+        //Get on-chain signature
         const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL); 
         const contract = new ethers.Contract(
             process.env.CONTRACT_ADDRESS,
@@ -65,7 +65,9 @@ const hander = async (event) => {
             notary: onChain.notary,
             ivsl: onChain.ivsl
         };
-        
+
+        //Signature comparison
+
     } catch (error) {
 
     }
