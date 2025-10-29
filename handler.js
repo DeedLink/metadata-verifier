@@ -57,6 +57,15 @@ const hander = async (event) => {
             PropertyNFTABI,
             provider
         );
+
+        const onChain = await contract.getSignature(tokenId); 
+
+        const onChainSigature = {
+            surveyor: onChain.surveyor,
+            notary: onChain.notary,
+            ivsl: onChain.ivsl
+        };
+        
     } catch (error) {
 
     }
