@@ -31,6 +31,23 @@ const hander = async (event) => {
             Key: signKey
         });
 
+        const signObj = await s3.send(signCmd);
+        let signRaw = "";
+
+        for await (const chunk of signObj.Body){
+            signRaw += chunk;
+        }
+
+        const offChainSignature = JSON.parse(signRaw);
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: "Signature fetched successfully",
+                data: offChainSignature
+            }),
+        };
+
     } catch (error) {
 
     }
