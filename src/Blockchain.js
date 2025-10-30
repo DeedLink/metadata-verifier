@@ -15,13 +15,13 @@ export default async function (tokenId){
             owner: owner.lowerCase(),
             tokenURI: tokenURI,
         };
-        
+
     }catch(error){
         console.error("Error fetching metadata:", error);
         return {
             statusCode: 500,
             body: JSON.stringify({
-                message: "Internal Server Error"
+                message: "Unable to fetch on-chain data"
             }),
         };
     }
