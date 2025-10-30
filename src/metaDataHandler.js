@@ -1,8 +1,6 @@
 import { S3 } from "@aws-sdk/client-s3";
 
 
-
-const 
 const s3 = new S3({
     region: process.env.AWS_REGION,
     credentials: {
@@ -10,6 +8,9 @@ const s3 = new S3({
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },  
 });
+
+const provider = new ethers.providersJsonRpcProvider(process.env.RPC_URL);
+const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, DeedABI, provider);
 
 const metaDataHandler = async (event) => {
     try{
