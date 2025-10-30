@@ -7,6 +7,15 @@ const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, DeedABI, prov
 export default async function (tokenId){
     try{
 
+        const owner = await contract.ownerOf(tokenId);
+        const tokenURI = await contract.tokenURI(tokenId);
+
+        return{
+            tokenId: Number(tokenId),
+            owner: owner.lowerCase(),
+            tokenURI: tokenURI,
+        };
+        
     }catch(error){
         console.error("Error fetching metadata:", error);
         return {
