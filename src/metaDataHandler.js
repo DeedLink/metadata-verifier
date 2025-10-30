@@ -1,5 +1,5 @@
 import { S3 } from "@aws-sdk/client-s3";
-import {getChainRecords} from "./Blockchain";
+import { getChainRecords } from "./Blockchain";
 
 
 const s3 = new S3({
@@ -7,18 +7,18 @@ const s3 = new S3({
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },  
+    },
 });
 
 
 const metaDataHandler = async (event) => {
-    try{
+    try {
 
         const tokenId = event.queryStringParameters?.tokenId || event.tokenId;
-        
 
-        if(!tokenId){
-            return{
+
+        if (!tokenId) {
+            return {
                 statusCode: 400,
                 body: JSON.stringify({
                     message: "token id required!"
@@ -33,9 +33,26 @@ const metaDataHandler = async (event) => {
         //Fetch on-chain data
         const onChainData = await getChainRecords(tokenId);
 
+        const verifiedMetadata = (offChainData.tokenId == onChainData.tokenId) &&
+            (offChainData.owner.toLowerCase() === onChainData.owner.toLowerCase()) &&
+            (offChainData.tokenURI === onChainData.tokenURI);
 
 
-    }catch(error){
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                verifiedMetadata,
+                message: verifiedMetadata ? "Title verified successfully — matches blockchain record."
+                    : "Title verification failed — does not match blockchain record.",
+                offChainData,
+                onChainData,
+
+            })
+        };
+
+
+
+    } catch (error) {
         console.error("Error fetching metadata:", error);
         return {
             statusCode: 500,
