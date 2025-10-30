@@ -1,6 +1,8 @@
 import { S3 } from "@aws-sdk/client-s3";
 
 
+
+const 
 const s3 = new S3({
     region: process.env.AWS_REGION,
     credentials: {
@@ -13,6 +15,7 @@ const metaDataHandler = async (event) => {
     try{
 
         const tokenId = event.queryStringParameters.tokenId;
+        
 
         if(!tokenId){
             return{
@@ -21,7 +24,9 @@ const metaDataHandler = async (event) => {
                     message: "token id required!"
                 })
             };
-        }
+        };
+
+
 
     }catch(error){
         console.error("Error fetching metadata:", error);
