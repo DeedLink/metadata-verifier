@@ -1,4 +1,5 @@
 import { S3 } from "@aws-sdk/client-s3";
+import {getChainRecords} from "./Blockchain";
 
 
 const s3 = new S3({
