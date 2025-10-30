@@ -10,13 +10,11 @@ const s3 = new S3({
     },  
 });
 
-const provider = new ethers.providersJsonRpcProvider(process.env.RPC_URL);
-const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, DeedABI, provider);
 
 const metaDataHandler = async (event) => {
     try{
 
-        const tokenId = event.queryStringParameters.tokenId;
+        const tokenId = event.queryStringParameters?.tokenId || event.tokenId;
         
 
         if(!tokenId){
@@ -27,6 +25,13 @@ const metaDataHandler = async (event) => {
                 })
             };
         };
+
+        //Fetch off-chain data
+        const dbResponse = await axios.get(`{process.env.MONGO_URI}/api/transactions/${tokenId}`);
+        const offChainData = dbResponse.data;
+
+        //Fetch on-chain data
+        const onChainData = await getChainRecords(tokenId);
 
 
 
