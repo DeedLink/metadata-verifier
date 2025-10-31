@@ -9,5 +9,19 @@
     "axios": "^1.13.1",
     "dotenv": "^17.2.3",
     "ethers": "^6.15.0"
-  }
+  },
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeedLink/metadata-verifier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/DeedLink/metadata-verifier/issues"
+  },
+  "homepage": "https://github.com/DeedLink/metadata-verifier#readme"
 }
