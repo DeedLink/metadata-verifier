@@ -46,7 +46,7 @@ export const handler = async (event) => {
     }
 
     // ✅ Fetch off-chain data from your backend API
-    const dbResponse = await axios.get(`${process.env.MONGO_URI}/api/transactions/${tokenId}`);
+    const dbResponse = await axios.get(`https://api-deedlink-transaction-service.vercel.app/api/transactions/deed/${tokenId}`);
     const offChainData = dbResponse.data;
 
     // ✅ Fetch on-chain data from blockchain
@@ -62,9 +62,8 @@ export const handler = async (event) => {
     // ✅ Verify off-chain and on-chain data consistency
     const verifiedMetadata =
       Number(offChainData.tokenId) === onChainData.tokenId &&
-      offChainData.owner?.toLowerCase() === onChainData.owner &&
-      offChainData.tokenURI === onChainData.tokenURI;
-
+      offChainData.owner?.toLowerCase() === onChainData.owner;
+      
     return {
       statusCode: 200,
       body: JSON.stringify({
